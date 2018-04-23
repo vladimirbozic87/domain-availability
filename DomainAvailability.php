@@ -195,10 +195,10 @@ class DomainAvailability
     ];
 
     /**
-     * @param $domain
+     * @param string $domain
      * @return string
      */
-    public function LookupDomain($domain){
+    public function LookupDomain(string $domain){
         $domain_parts = explode(".", $domain);
         $tld = strtolower(array_pop($domain_parts));
         $whoisserver = self::WHO_IS_SERVERS[$tld];
@@ -223,10 +223,10 @@ class DomainAvailability
     }
 
     /**
-     * @param $ip
+     * @param string $ip
      * @return string
      */
-    public function LookupIP($ip) {
+    public function LookupIP(string $ip) {
         $results = [];
         foreach (self::WHO_IS_SERVERS_IP as $whoisserver) {
             $result = $this->QueryWhoisServer($whoisserver, $ip);
@@ -242,10 +242,10 @@ class DomainAvailability
     }
 
     /**
-     * @param $ip
-     * @return bool
+     * @param string $ip
+     * @return bool|string
      */
-    public function ValidateIP($ip) {
+    public function ValidateIP(string $ip) {
         $ipnums = explode(".", $ip);
         if (count($ipnums) != 4) {
             return false;
@@ -259,10 +259,10 @@ class DomainAvailability
     }
 
     /**
-     * @param $domain
-     * @return bool
+     * @param string $domain
+     * @return bool|string
      */
-    public function ValidateDomain($domain) {
+    public function ValidateDomain(string $domain) {
         if ( ! preg_match("/^([-a-z0-9]{2,100})\.([a-z\.]{2,8})$/i", $domain)) {
             return false;
         }
@@ -270,11 +270,11 @@ class DomainAvailability
     }
 
     /**
-     * @param $whoisserver
-     * @param $domain
+     * @param string $whoisserver
+     * @param string $domain
      * @return string
      */
-    public function QueryWhoisServer($whoisserver, $domain) {
+    public function QueryWhoisServer(string $whoisserver, string $domain) {
         $port = 43;
         $timeout = 10;
         $fp = @fsockopen($whoisserver, $port, $errno, $errstr, $timeout) or die("Socket Error " . $errno . " - " . $errstr);
